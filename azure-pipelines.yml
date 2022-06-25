@@ -40,12 +40,12 @@
 #         allowTelemetryCollection: true
 #         commandOptions: -lock=false -input=false
 
-# variables:
-#   TFSTATE_SA: iacbootslab
-#   TFSTATE_CONTAINER: tfstate-demo
-#   TFSTATE_KEY: terraform.tfstate
-#   SVC_CONNECTION: atiku-srvconnection
-#   ARM_SUBCRIPTION_ID: 800eeb5c-ab87-468f-800b-d9ca632b4f73
+variables:
+  TFSTATE_SA: iacbootslab
+  TFSTATE_CONTAINER: tfstate-demo
+  TFSTATE_KEY: terraform.tfstate
+  SVC_CONNECTION: atiku-srvconnection
+  ARM_SUBCRIPTION_ID: 800eeb5c-ab87-468f-800b-d9ca632b4f73
 
 trigger:
 - terraform-cicd

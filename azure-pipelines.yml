@@ -23,7 +23,7 @@ steps:
     backendAzureRmContainerName: 'tfstate-demo'
     backendAzureRmKey: 'dev-demo.terraform.tfstate'
     allowTelemetryCollection: true
-    commandOptions: -lock false
+    commandOptions: -upgrade
 
 - task: TerraformCLI@0
   inputs:
@@ -39,4 +39,4 @@ steps:
     environmentServiceName: 'my-learning-service-connection'
     providerAzureRmSubscriptionId: 'c16607f9-91f9-4cb9-2d1f-851fcc83f998'
     allowTelemetryCollection: true
-    commandOptions: -lock false
+    commandOptions: -lock=false -inputfalse

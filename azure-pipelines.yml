@@ -40,12 +40,12 @@
 #         allowTelemetryCollection: true
 #         commandOptions: -lock=false -input=false
 
-variables:
-  TFSTATE_SA: iacbootslab
-  TFSTATE_CONTAINER: tfstate-demo
-  TFSTATE_KEY: terraform.tfstate
-  SVC_CONNECTION: atiku-srvconnection
-  ARM_SUBCRIPTION_ID: 800eeb5c-ab87-468f-800b-d9ca632b4f73
+# variables:
+#   TFSTATE_SA: iacbootslab
+#   TFSTATE_CONTAINER: tfstate-demo
+#   TFSTATE_KEY: terraform.tfstate
+#   SVC_CONNECTION: atiku-srvconnection
+#   ARM_SUBCRIPTION_ID: 800eeb5c-ab87-468f-800b-d9ca632b4f73
 
 trigger:
 - terraform-cicd
@@ -54,24 +54,41 @@ pool: workload-selfhosted-agentpool
 
 steps:
 
-- task: TerraformInstaller@0
-  inputs:
-    terraformVersion: 'latest'
+# - task: TerraformInstaller@0
+#   displayName: 'package requirements'
+#   inputs:
+#     terraformVersion: 'latest'
+
+# - task: TerraformCLI@0
+#   displayName: 'Initialization'
+#   inputs:
+#     command: 'init'
+#     workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
+#     backendType: 'azurerm'
+#     backendServiceArm: $(SVC_CONNECTION)
+#     backendAzureRmSubscriptionId: $(ARM_SUBCRIPTION_ID)
+#     backendAzureRmResourceGroupName: $(TFSTATE_SA)
+#     backendAzureRmStorageAccountName: $(TFSTATE_BLOB)
+#     backendAzureRmContainerName: $(TFSTATE_CONTAINER)
+#     backendAzureRmKey: $(TFSTATE_KEY)
+#     allowTelemetryCollection: true
+#     commandOptions: -reconfigure
 
 - task: TerraformCLI@0
-  displayName: 'Initialization'
   inputs:
     command: 'init'
     workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
+    commandOptions: '-reconfigure'
     backendType: 'azurerm'
-    backendServiceArm: $(SVC_CONNECTION)
-    backendAzureRmSubscriptionId: $(ARM_SUBCRIPTION_ID)
-    backendAzureRmResourceGroupName: $(TFSTATE_SA)
-    backendAzureRmStorageAccountName: $(TFSTATE_BLOB)
-    backendAzureRmContainerName: $(TFSTATE_CONTAINER)
-    backendAzureRmKey: $(TFSTATE_KEY)
+    backendServiceArm: 'atiku-srvconnection'
+    backendAzureRmSubscriptionId: '800eeb5c-ab87-468f-800b-d9ca632b4f73'
+    ensureBackend: true
+    backendAzureRmResourceGroupName: 'demo'
+    backendAzureRmResourceGroupLocation: 'eastus'
+    backendAzureRmStorageAccountName: 'iacbootslab'
+    backendAzureRmContainerName: 'tfstate-demo'
+    backendAzureRmKey: 'terraform.tfstate'
     allowTelemetryCollection: true
-    commandOptions: -reconfigure
 
 - task: TerraformCLI@0
   displayName: 'Exective Plan'

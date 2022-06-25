@@ -23,13 +23,14 @@ steps:
     backendAzureRmContainerName: 'tfstate-demo'
     backendAzureRmKey: 'dev-demo.terraform.tfstate'
     allowTelemetryCollection: true
+    commandOptions: -lock false
 
-# - task: TerraformCLI@0
-#   inputs:
-#     command: 'forceunlock'
-#     workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
-#     allowTelemetryCollection: true
-#     lockID: 'c16607f9-91f9-4cb9-2d1f-851fcc83f998'
+- task: TerraformCLI@0
+  inputs:
+    command: 'forceunlock'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
+    allowTelemetryCollection: true
+    lockID: 'd7d5c252-3485-b94a-c54b-7785db0eaa10'
 
 - task: TerraformCLI@0
   inputs:
@@ -38,3 +39,4 @@ steps:
     environmentServiceName: 'my-learning-service-connection'
     providerAzureRmSubscriptionId: 'c16607f9-91f9-4cb9-2d1f-851fcc83f998'
     allowTelemetryCollection: true
+    commandOptions: -lock false

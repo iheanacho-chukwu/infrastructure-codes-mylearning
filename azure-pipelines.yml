@@ -25,12 +25,12 @@ steps:
     allowTelemetryCollection: true
     commandOptions: -upgrade
 
-- task: TerraformCLI@0
-  inputs:
-    command: 'forceunlock'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
-    allowTelemetryCollection: true
-    lockID: 'd7d5c252-3485-b94a-c54b-7785db0eaa10'
+# - task: TerraformCLI@0
+#   inputs:
+#     command: 'forceunlock'
+#     workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
+#     allowTelemetryCollection: true
+#     lockID: 'd7d5c252-3485-b94a-c54b-7785db0eaa10'
 
 - task: TerraformCLI@0
   inputs:

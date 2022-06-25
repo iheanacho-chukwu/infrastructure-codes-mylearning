@@ -78,13 +78,13 @@ steps:
   inputs:
     command: 'init'
     workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
-    commandOptions: '-reconfigure'
+    commandOptions: '-upgrade'
     backendType: 'azurerm'
     backendServiceArm: 'atiku-srvconnection'
     backendAzureRmSubscriptionId: '800eeb5c-ab87-468f-800b-d9ca632b4f73'
     backendAzureRmResourceGroupName: 'demo'
     backendAzureRmStorageAccountName: '$(TFSTATE_SA)'
-    backendAzureRmContainerName: 'tfstate-demo'
+    backendAzureRmContainerName: '$(TFSTATE_CONTAINER)'
     backendAzureRmKey: 'terraform.tfstate'
     allowTelemetryCollection: true
 

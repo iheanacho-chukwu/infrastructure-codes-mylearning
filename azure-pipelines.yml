@@ -10,18 +10,16 @@ stages:
   jobs:
   - job: Build
     steps:
-    - script: echo 'simple terraform pipeline'
-      displayName: 'simple terraform pipeline'
 
     - task: TerraformInstaller@0
       inputs:
         terraformVersion: 'latest'
 
     - task: TerraformCLI@0
+      displayName: 'Initialization'
       inputs:
         command: 'init'
         workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
-        commandOptions: 'init'
         backendType: 'azurerm'
         backendServiceArm: 'my-learning-service-connection'
         backendAzureRmSubscriptionId: 'ec829c67-2dd4-4ef3-b3de-6d77c8b2abeb'
@@ -32,9 +30,42 @@ stages:
         allowTelemetryCollection: true
 
     - task: TerraformCLI@0
+      displayName: 'Executive Plan'
       inputs:
         command: 'plan'
         workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
         environmentServiceName: 'my-learning-service-connection'
         providerAzureRmSubscriptionId: 'ec829c67-2dd4-4ef3-b3de-6d77c8b2abeb'
         allowTelemetryCollection: true
+
+# - stage: Terraform_Deploy
+#   jobs:
+#   - job: Deploy
+#     steps:
+
+#     - task: TerraformInstaller@0
+#       inputs:
+#         terraformVersion: 'latest'
+
+#     - task: TerraformCLI@0
+#       displayName: 'Initialization'
+#       inputs:
+#         command: 'init'
+#         workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
+#         backendType: 'azurerm'
+#         backendServiceArm: 'my-learning-service-connection'
+#         backendAzureRmSubscriptionId: 'ec829c67-2dd4-4ef3-b3de-6d77c8b2abeb'
+#         backendAzureRmResourceGroupName: 'demo'
+#         backendAzureRmStorageAccountName: 'iacboots'
+#         backendAzureRmContainerName: 'tfstate-demo'
+#         backendAzureRmKey: 'dev-demo.terraform.tfstate'
+#         allowTelemetryCollection: true
+
+#     - task: TerraformCLI@0
+#       displayName: 'Executive Plan'
+#       inputs:
+#         command: 'plan'
+#         workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
+#         environmentServiceName: 'my-learning-service-connection'
+#         providerAzureRmSubscriptionId: 'ec829c67-2dd4-4ef3-b3de-6d77c8b2abeb'
+#         allowTelemetryCollection: true

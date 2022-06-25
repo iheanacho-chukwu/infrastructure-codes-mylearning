@@ -4,7 +4,7 @@ trigger:
 pool: workload-selfhosted-agentpool
 
 steps:
-- script: echo 'simple terraform pipeline'
+- script: terraform force-unlock 97bfdbfe-2609-4a75-ecb0-cf58393d744a
   displayName: 'simple terraform pipeline'
 
 - task: TerraformInstaller@0

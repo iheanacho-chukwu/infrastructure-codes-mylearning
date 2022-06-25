@@ -24,12 +24,12 @@ steps:
     backendAzureRmKey: 'dev-demo.terraform.tfstate'
     allowTelemetryCollection: true
 
-- task: TerraformCLI@0
-  inputs:
-    command: 'forceunlock'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
-    allowTelemetryCollection: true
-    lockID: 'c16607f9-91f9-4cb9-2d1f-851fcc83f998'
+# - task: TerraformCLI@0
+#   inputs:
+#     command: 'forceunlock'
+#     workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
+#     allowTelemetryCollection: true
+#     lockID: 'c16607f9-91f9-4cb9-2d1f-851fcc83f998'
 
 - task: TerraformCLI@0
   inputs:

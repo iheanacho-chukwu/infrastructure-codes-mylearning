@@ -54,6 +54,7 @@ steps:
     terraformVersion: 'latest'
 
 - task: TerraformCLI@0
+  displayName: 'Initialization'
   inputs:
     command: 'init'
     workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
@@ -67,14 +68,8 @@ steps:
     allowTelemetryCollection: true
     commandOptions: -upgrade
 
-# - task: TerraformCLI@0
-#   inputs:
-#     command: 'forceunlock'
-#     workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
-#     allowTelemetryCollection: true
-#     lockID: 'd7d5c252-3485-b94a-c54b-7785db0eaa10'
-
 - task: TerraformCLI@0
+  displayName: 'Exective Plan'
   inputs:
     command: 'plan'
     workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
@@ -82,3 +77,13 @@ steps:
     providerAzureRmSubscriptionId: 'c16607f9-91f9-4cb9-2d1f-851fcc83f998'
     allowTelemetryCollection: true
     commandOptions: -lock=false -input=false
+
+- task: TerraformCLI@0
+  displayName: Deploy
+  inputs:
+    command: 'apply'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
+    environmentServiceName: 'my-learning-service-connection'
+    providerAzureRmSubscriptionId: 'c16607f9-91f9-4cb9-2d1f-851fcc83f998'
+    commandOptions: '-input=false'
+    allowTelemetryCollection: false

@@ -4,13 +4,19 @@ trigger:
 pool: workload-selfhosted-agentpool
 
 steps:
-- script: terraform force-unlock 97bfdbfe-2609-4a75-ecb0-cf58393d744a
+- script: 'echo terraform-cid'
   displayName: 'simple terraform pipeline'
 
 - task: TerraformInstaller@0
   inputs:
     terraformVersion: 'latest'
 
+- task: TerraformCLI@0
+  inputs:
+    command: 'forceunlock'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
+    allowTelemetryCollection: true
+    lockID: '97bfdbfe-2609-4a75-ecb0-cf58393d744a'
 - task: TerraformCLI@0
   inputs:
     command: 'init'

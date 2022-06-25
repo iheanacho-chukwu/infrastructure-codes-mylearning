@@ -18,7 +18,7 @@ variable "region" {
 
 variable "rgname" {
   type    = string
-  default = "appsrgdev"
+  default = "appsrgdevs"
 }
 
 variable "subnet_address_space" {

@@ -50,6 +50,7 @@ stages:
 
 - stage: Run_Terraform_Apply
   #condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
+  environment: infra_env
   dependsOn: Terraform_build
   jobs:
     - job: Deploy_Infrastructure

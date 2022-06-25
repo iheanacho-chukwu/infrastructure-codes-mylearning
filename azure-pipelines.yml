@@ -82,9 +82,7 @@ steps:
     backendType: 'azurerm'
     backendServiceArm: 'atiku-srvconnection'
     backendAzureRmSubscriptionId: '800eeb5c-ab87-468f-800b-d9ca632b4f73'
-    ensureBackend: true
     backendAzureRmResourceGroupName: 'demo'
-    backendAzureRmResourceGroupLocation: 'eastus'
     backendAzureRmStorageAccountName: 'iacbootslab'
     backendAzureRmContainerName: 'tfstate-demo'
     backendAzureRmKey: 'terraform.tfstate'

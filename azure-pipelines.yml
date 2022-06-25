@@ -13,12 +13,6 @@ steps:
 
 - task: TerraformCLI@0
   inputs:
-    command: 'forceunlock'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
-    allowTelemetryCollection: true
-    lockID: '97bfdbfe-2609-4a75-ecb0-cf58393d744a'
-- task: TerraformCLI@0
-  inputs:
     command: 'init'
     workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
     backendType: 'azurerm'
@@ -29,6 +23,13 @@ steps:
     backendAzureRmContainerName: 'tfstate-demo'
     backendAzureRmKey: 'dev-demo.terraform.tfstate'
     allowTelemetryCollection: true
+
+- task: TerraformCLI@0
+  inputs:
+    command: 'forceunlock'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
+    allowTelemetryCollection: true
+    lockID: '97bfdbfe-2609-4a75-ecb0-cf58393d744a'
 
 - task: TerraformCLI@0
   inputs:

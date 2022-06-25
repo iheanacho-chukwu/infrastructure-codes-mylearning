@@ -28,6 +28,7 @@ stages:
         backendAzureRmContainerName: 'tfstate-demo'
         backendAzureRmKey: 'dev-demo.terraform.tfstate'
         allowTelemetryCollection: true
+        commandOptions: -upgrade
 
     - task: TerraformCLI@0
       displayName: 'Executive Plan'
@@ -37,6 +38,7 @@ stages:
         environmentServiceName: 'my-learning-service-connection'
         providerAzureRmSubscriptionId: 'ec829c67-2dd4-4ef3-b3de-6d77c8b2abeb'
         allowTelemetryCollection: true
+        commandOptions: -lock=false -input=false
 
 # - stage: Terraform_Deploy
 #   jobs:

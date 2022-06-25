@@ -44,6 +44,7 @@ variables:
   TFSTATE_SA: iacbootslab
   TFSTATE_CONTAINER: tfstate-demo
   TFSTATE_KEY: terraform.tfstate
+  TFSTATE_RG: demo
   SVC_CONNECTION: atiku-srvconnection
   ARM_SUBCRIPTION_ID: 800eeb5c-ab87-468f-800b-d9ca632b4f73
 
@@ -80,12 +81,12 @@ steps:
     workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
     commandOptions: '-upgrade'
     backendType: 'azurerm'
-    backendServiceArm: 'atiku-srvconnection'
-    backendAzureRmSubscriptionId: '800eeb5c-ab87-468f-800b-d9ca632b4f73'
-    backendAzureRmResourceGroupName: 'demo'
+    backendServiceArm: '$(SVC_CONNECTION)'
+    backendAzureRmSubscriptionId: '$(ARM_SUBCRIPTION_ID)'
+    backendAzureRmResourceGroupName: '$(TFSTATE_RG)'
     backendAzureRmStorageAccountName: '$(TFSTATE_SA)'
     backendAzureRmContainerName: '$(TFSTATE_CONTAINER)'
-    backendAzureRmKey: 'terraform.tfstate'
+    backendAzureRmKey: '$(TFSTATE_KEY)'
     allowTelemetryCollection: true
 
 - task: TerraformCLI@0

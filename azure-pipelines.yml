@@ -1,42 +1,40 @@
+name: Infrastructure-Deployment-$(Build.SourceBranchName)-$(Date:yyyyMMdd)
+
 trigger:
 - terraform-cicd
 
 pool: workload-selfhosted-agentpool
 
-steps:
-- script: 'echo terraform-cid'
-  displayName: 'simple terraform pipeline'
+stages: 
+- stage: Terraform_build
+  jobs:
+  - job: Build
+    steps:
+    - script: echo 'simple terraform pipeline'
+      displayName: 'simple terraform pipeline'
 
-- task: TerraformInstaller@0
-  inputs:
-    terraformVersion: 'latest'
+    - task: TerraformInstaller@0
+      inputs:
+        terraformVersion: 'latest'
 
-- task: TerraformCLI@0
-  inputs:
-    command: 'init'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
-    backendType: 'azurerm'
-    backendServiceArm: 'my-learning-service-connection'
-    backendAzureRmSubscriptionId: 'ec829c67-2dd4-4ef3-b3de-6d77c8b2abeb'
-    backendAzureRmResourceGroupName: 'demo'
-    backendAzureRmStorageAccountName: 'iacboots'
-    backendAzureRmContainerName: 'tfstate-demo'
-    backendAzureRmKey: 'dev-demo.terraform.tfstate'
-    allowTelemetryCollection: true
-    commandOptions: -upgrade
+    - task: TerraformCLI@0
+      inputs:
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
+        commandOptions: 'init'
+        backendType: 'azurerm'
+        backendServiceArm: 'my-learning-service-connection'
+        backendAzureRmSubscriptionId: 'ec829c67-2dd4-4ef3-b3de-6d77c8b2abeb'
+        backendAzureRmResourceGroupName: 'demo'
+        backendAzureRmStorageAccountName: 'iacboots'
+        backendAzureRmContainerName: 'tfstate-demo'
+        backendAzureRmKey: 'dev-demo.terraform.tfstate'
+        allowTelemetryCollection: true
 
-# - task: TerraformCLI@0
-#   inputs:
-#     command: 'forceunlock'
-#     workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
-#     allowTelemetryCollection: true
-#     lockID: 'd7d5c252-3485-b94a-c54b-7785db0eaa10'
-
-- task: TerraformCLI@0
-  inputs:
-    command: 'plan'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
-    environmentServiceName: 'my-learning-service-connection'
-    providerAzureRmSubscriptionId: 'c16607f9-91f9-4cb9-2d1f-851fcc83f998'
-    allowTelemetryCollection: true
-    commandOptions: -lock=false -input=false
+    - task: TerraformCLI@0
+      inputs:
+        command: 'plan'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
+        environmentServiceName: 'my-learning-service-connection'
+        providerAzureRmSubscriptionId: 'ec829c67-2dd4-4ef3-b3de-6d77c8b2abeb'
+        allowTelemetryCollection: true

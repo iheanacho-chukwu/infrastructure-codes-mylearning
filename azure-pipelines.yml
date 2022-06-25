@@ -1,44 +1,4 @@
-# name: Infrastructure-Deployment-$(Build.SourceBranchName)-$(Date:yyyyMMdd)
-
-# trigger:
-# - terraform-cicd
-
-# pool: workload-selfhosted-agentpool
-
-# stages: 
-# - stage: Terraform_build
-#   jobs:
-#   - job: Build
-#     steps:
-
-#     - task: TerraformInstaller@0
-#       inputs:
-#         terraformVersion: 'latest'
-
-#     - task: TerraformCLI@0
-#       displayName: 'Initialization'
-#       inputs:
-#         command: 'init'
-#         workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
-#         backendType: 'azurerm'
-#         backendServiceArm: 'my-learning-service-connection'
-#         backendAzureRmSubscriptionId: 'ec829c67-2dd4-4ef3-b3de-6d77c8b2abeb'
-#         backendAzureRmResourceGroupName: 'demo'
-#         backendAzureRmStorageAccountName: 'iacboots'
-#         backendAzureRmContainerName: 'tfstate-demo'
-#         backendAzureRmKey: 'dev-demo.terraform.tfstate'
-#         allowTelemetryCollection: true
-#         commandOptions: -upgrade
-
-#     - task: TerraformCLI@0
-#       displayName: 'Executive Plan'
-#       inputs:
-#         command: 'plan'
-#         workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
-#         environmentServiceName: 'my-learning-service-connection'
-#         providerAzureRmSubscriptionId: 'ec829c67-2dd4-4ef3-b3de-6d77c8b2abeb'
-#         allowTelemetryCollection: true
-#         commandOptions: -lock=false -input=false
+name: Infrastructure-Deployment-$(Build.SourceBranchName)-$(Date:yyyyMMdd)
 
 variables:
   TFSTATE_SA: iacbootslab
@@ -46,65 +6,54 @@ variables:
   TFSTATE_KEY: terraform.tfstate
   TFSTATE_RG: demo
   SVC_CONNECTION: atiku-srvconnection
-  #ARM_SUBCRIPTION_ID: 800eeb5c-ab87-468f-800b-d9ca632b4f73
 
 trigger:
 - terraform-cicd
 
 pool: workload-selfhosted-agentpool
 
-steps:
+stages: 
+- stage: Terraform_build
+  jobs:
+  - job: Build
+    steps:
 
-- task: TerraformInstaller@0
-  displayName: 'package requirements'
-  inputs:
-    terraformVersion: 'latest'
+    - task: TerraformInstaller@0
+      displayName: 'package requirements'
+      inputs:
+        terraformVersion: 'latest'
 
-# - task: TerraformCLI@0
-#   displayName: 'Initialization'
-#   inputs:
-#     command: 'init'
-#     workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
-#     backendType: 'azurerm'
-#     backendServiceArm: $(SVC_CONNECTION)
-#     backendAzureRmSubscriptionId: $(ARM_SUBCRIPTION_ID)
-#     backendAzureRmResourceGroupName: $(TFSTATE_SA)
-#     backendAzureRmStorageAccountName: $(TFSTATE_BLOB)
-#     backendAzureRmContainerName: $(TFSTATE_CONTAINER)
-#     backendAzureRmKey: $(TFSTATE_KEY)
-#     allowTelemetryCollection: true
-#     commandOptions: -reconfigure
+    - task: TerraformCLI@0
+      displayName: 'Initialization'
+      inputs:
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
+        commandOptions: '-upgrade'
+        backendType: 'azurerm'
+        backendServiceArm: '$(SVC_CONNECTION)'
+        backendAzureRmSubscriptionId: '$(ARM_SUBCRIPTION_ID)'
+        backendAzureRmResourceGroupName: '$(TFSTATE_RG)'
+        backendAzureRmStorageAccountName: '$(TFSTATE_SA)'
+        backendAzureRmContainerName: '$(TFSTATE_CONTAINER)'
+        backendAzureRmKey: '$(TFSTATE_KEY)'
+        allowTelemetryCollection: true
 
-- task: TerraformCLI@0
-  inputs:
-    command: 'init'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
-    commandOptions: '-upgrade'
-    backendType: 'azurerm'
-    backendServiceArm: '$(SVC_CONNECTION)'
-    backendAzureRmSubscriptionId: '$(ARM_SUBCRIPTION_ID)'
-    backendAzureRmResourceGroupName: '$(TFSTATE_RG)'
-    backendAzureRmStorageAccountName: '$(TFSTATE_SA)'
-    backendAzureRmContainerName: '$(TFSTATE_CONTAINER)'
-    backendAzureRmKey: '$(TFSTATE_KEY)'
-    allowTelemetryCollection: true
+    - task: TerraformCLI@0
+      displayName: 'Exective Plan'
+      inputs:
+        command: 'plan'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
+        environmentServiceName: $(SVC_CONNECTION)
+        providerAzureRmSubscriptionId: $(ARM_SUBCRIPTION_ID)
+        allowTelemetryCollection: true
+        commandOptions: -lock=false -input=false
 
-- task: TerraformCLI@0
-  displayName: 'Exective Plan'
-  inputs:
-    command: 'plan'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
-    environmentServiceName: $(SVC_CONNECTION)
-    providerAzureRmSubscriptionId: $(ARM_SUBCRIPTION_ID)
-    allowTelemetryCollection: true
-    commandOptions: -lock=false -input=false
-
-- task: TerraformCLI@0
-  displayName: Deploy
-  inputs:
-    command: 'apply'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
-    environmentServiceName: $(SVC_CONNECTION)
-    providerAzureRmSubscriptionId: $(ARM_SUBCRIPTION_ID)
-    commandOptions: '-input=false'
-    allowTelemetryCollection: false
+    - task: TerraformCLI@0
+      displayName: Deploy
+      inputs:
+        command: 'apply'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
+        environmentServiceName: $(SVC_CONNECTION)
+        providerAzureRmSubscriptionId: $(ARM_SUBCRIPTION_ID)
+        commandOptions: '-input=false'
+        allowTelemetryCollection: false

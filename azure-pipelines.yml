@@ -71,7 +71,7 @@ steps:
     backendAzureRmContainerName: $(TFSTATE_CONTAINER)
     backendAzureRmKey: $(TFSTATE_KEY)
     allowTelemetryCollection: true
-    commandOptions: -upgrade
+    commandOptions: -reconfigure
 
 - task: TerraformCLI@0
   displayName: 'Exective Plan'

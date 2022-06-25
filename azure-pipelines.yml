@@ -15,7 +15,6 @@ steps:
   inputs:
     command: 'init'
     workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
-    commandOptions: 'init'
     backendType: 'azurerm'
     backendServiceArm: 'my-learning-service-connection'
     backendAzureRmSubscriptionId: 'ec829c67-2dd4-4ef3-b3de-6d77c8b2abeb'

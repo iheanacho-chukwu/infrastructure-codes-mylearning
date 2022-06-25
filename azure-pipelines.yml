@@ -8,7 +8,7 @@ variables:
   SVC_CONNECTION: atiku-srvconnection
 
 trigger:
-- terraform-cicd
+- main
 
 pool: workload-selfhosted-agentpool
 

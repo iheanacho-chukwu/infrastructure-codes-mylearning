@@ -38,4 +38,3 @@ steps:
     environmentServiceName: 'my-learning-service-connection'
     providerAzureRmSubscriptionId: 'c16607f9-91f9-4cb9-2d1f-851fcc83f998'
     allowTelemetryCollection: true
-    runAzLogin: true

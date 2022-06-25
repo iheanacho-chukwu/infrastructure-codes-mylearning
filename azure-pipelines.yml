@@ -83,7 +83,7 @@ steps:
     backendServiceArm: 'atiku-srvconnection'
     backendAzureRmSubscriptionId: '800eeb5c-ab87-468f-800b-d9ca632b4f73'
     backendAzureRmResourceGroupName: 'demo'
-    backendAzureRmStorageAccountName: 'iacbootslab'
+    backendAzureRmStorageAccountName: '$(TFSTATE_SA)'
     backendAzureRmContainerName: 'tfstate-demo'
     backendAzureRmKey: 'terraform.tfstate'
     allowTelemetryCollection: true

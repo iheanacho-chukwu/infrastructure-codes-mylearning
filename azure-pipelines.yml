@@ -1,7 +1,7 @@
 name: Infrastructure-Deployment-$(Build.SourceBranchName)-$(Date:yyyyMMdd)
 
 trigger:
-- main
+- duplicate_tf_build
 
 pool: workload-selfhosted-agentpool
 
@@ -41,6 +41,22 @@ stages:
         allowTelemetryCollection: true
         commandOptions: -lock=false -input=false -out=tfplan
 
+    - task: ArchiveFiles@2
+      displayName: 'Archive the tplan to zip'
+      inputs:
+        rootFolderOrFile: '$(Build.BinariesDirectory)'
+        includeRootFolder: true
+        archiveType: 'zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-tfplan.zip'
+        replaceExistingArchive: true
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publish tfplan.zip as artifact for use in Deploy stage'
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-tfplan.zip'
+        ArtifactName: '$(Build.BuildId)-tfplan'
+        publishLocation: 'Container'
+
 - stage: Run_Terraform_Apply
   condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
   dependsOn: Terraform_build
@@ -57,6 +73,13 @@ stages:
             inputs:
               terraformVersion: 'latest'
 
+          - task: ExtractFiles@1
+            inputs:
+              archiveFilePatterns: '**/*.zip'
+              destinationFolder: '$(Build.SourcesDirectory)'
+              cleanDestinationFolder: true
+              overwriteExistingFiles: false
+
           - task: TerraformCLI@0
             displayName: 'Initialization'
             inputs:
@@ -72,15 +95,16 @@ stages:
               backendAzureRmKey: '$(TFSTATE_KEY)'
               allowTelemetryCollection: true
 
-          - task: TerraformCLI@0
-            displayName: 'Exective Plan'
-            inputs:
-              command: 'plan'
-              workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
-              environmentServiceName: $(SVC_CONNECTION)
-              providerAzureRmSubscriptionId: $(ARM_SUBCRIPTION_ID)
-              allowTelemetryCollection: true
-              commandOptions: -lock=false -input=false
+
+          # - task: TerraformCLI@0
+          #   displayName: 'Exective Plan'
+          #   inputs:
+          #     command: 'plan'
+          #     workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
+          #     environmentServiceName: $(SVC_CONNECTION)
+          #     providerAzureRmSubscriptionId: $(ARM_SUBCRIPTION_ID)
+          #     allowTelemetryCollection: true
+          #     commandOptions: -lock=false -input=false
 
           - task: TerraformCLI@0
             displayName: Deploy
@@ -89,5 +113,5 @@ stages:
               workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
               environmentServiceName: $(SVC_CONNECTION)
               providerAzureRmSubscriptionId: $(ARM_SUBCRIPTION_ID)
-              commandOptions: '-input=false'
+              commandOptions: -input=false -auto-approve tfplan 
               allowTelemetryCollection: false

@@ -76,7 +76,7 @@ stages:
           - task: ExtractFiles@1
             displayName: 'tfplan requirements'
             inputs:
-              archiveFilePatterns: '**/*.zip'
+              archiveFilePatterns: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-tfplan.zip' #'**/*.zip'
               destinationFolder: '$(Build.SourcesDirectory)'
               cleanDestinationFolder: true
               overwriteExistingFiles: false

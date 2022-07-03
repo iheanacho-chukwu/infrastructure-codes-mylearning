@@ -12,13 +12,13 @@ variable "vnet_address_space" {
 }
 
 variable "region" {
-  description = "Region chosen for this deployment can only appy to eas us location"
+  description = "Region/location chosen for this deployment"
   type    = string
   default = "eastus"
 }
 
 variable "rgname" {
-  description = "resoure group name to all the resources grouped"
+  description = "resource group name to all the resources grouped"
   type    = string
   default = "appsrgdevs"
 }

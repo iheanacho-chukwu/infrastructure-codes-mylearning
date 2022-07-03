@@ -58,7 +58,7 @@ stages:
         publishLocation: 'Container'
 
 - stage: Run_Terraform_Apply
-  condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
+  condition: eq(variables['Build.SourceBranch'], 'refs/heads/duplicate_tf_build')
   dependsOn: Terraform_build
   jobs:
   - deployment: Apply

@@ -8,7 +8,7 @@ variables:
   SVC_CONNECTION: atiku-srvconnection
 
 trigger:
-- terraform-cicd
+- main
 
 pool: workload-selfhosted-agentpool
 
@@ -49,7 +49,7 @@ stages:
         commandOptions: -lock=false -input=false
 
 - stage: Run_Terraform_Apply
-  #condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
+  condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
   dependsOn: Terraform_build
   jobs:
   - deployment: Apply

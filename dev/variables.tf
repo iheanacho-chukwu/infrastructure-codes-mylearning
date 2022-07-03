@@ -12,36 +12,20 @@ variable "vnet_address_space" {
 }
 
 variable "region" {
+  description = "Region/location chosen for this deployment"
   type    = string
   default = "eastus"
 }
 
 variable "rgname" {
+  description = "resource group name to all the resources grouped"
   type    = string
   default = "appsrgdevs"
 }
 
 variable "subnet_address_space" {
+  description = "subnet address space to all the resource tie to this subnet id"
   type    = list(any)
   default = ["10.0.1.0/24"]
 }
 
-# variable "subscription_id" {
-#   type        = string
-#   description = "The Subscription ID in which the Storage Account exists. This can also be sourced from the ARM_SUBSCRIPTION_ID environment variable."
-# }
-
-# variable "client_id" {
-#   type        = string
-#   description = "The Client ID of the Service Principal. This can also be sourced from the ARM_CLIENT_ID environment variable"
-# }
-
-# variable "tenant_id" {
-#   type        = string
-#   description = "The Tenant ID in which the Subscription exists. This can also be sourced from the ARM_TENANT_ID environment variable"
-# }
-
-# variable "client_secret" {
-#   type        = string
-#   description = "The Client Secret of the Service Principal. This can also be sourced from the ARM_CLIENT_SECRET environment variable"
-# }

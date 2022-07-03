@@ -39,69 +39,11 @@ stages:
         environmentServiceName: $(SVC_CONNECTION)
         providerAzureRmSubscriptionId: $(ARM_SUBCRIPTION_ID)
         allowTelemetryCollection: true
-        commandOptions: -lock=false -input=false -out=tfplan
-
-    - task: ArchiveFiles@2
-      displayName: 'Archive the tplan to zip'
-      inputs:
-        rootFolderOrFile: '$(Build.BinariesDirectory)'
-        includeRootFolder: true
-        archiveType: 'zip'
-        archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-tfplan.zip'
-        replaceExistingArchive: true
+        commandOptions: -lock=false -input=false -out=output.tfplan
 
     - task: PublishBuildArtifacts@1
-      displayName: 'Publish tfplan.zip as artifact for use in Deploy stage'
+      displayName: 'Publish tfplan file as artifact for use in Deploy stage'
       inputs:
-        PathtoPublish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-tfplan.zip'
-        ArtifactName: '$(Build.BuildId)-tfplan'
+        PathtoPublish: '$(Build.SourcesDirectory)'
+        ArtifactName: 'tfplan'
         publishLocation: 'Container'
-
-- stage: Run_Terraform_Apply
-  condition: eq(variables['Build.SourceBranch'], 'refs/heads/duplicate_tf_build')
-  dependsOn: Terraform_build
-  jobs:
-  - deployment: Apply
-    environment: infra_env
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-
-          - task: TerraformInstaller@0
-            displayName: 'package requirements'
-            inputs:
-              terraformVersion: 'latest'
-
-          - task: ExtractFiles@1
-            displayName: 'tfplan requirements'
-            inputs:
-              archiveFilePatterns: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-tfplan.zip' #'**/*.zip'
-              destinationFolder: '$(Build.SourcesDirectory)'
-              cleanDestinationFolder: true
-              overwriteExistingFiles: false
-
-          - task: TerraformCLI@0
-            displayName: 'Initialization'
-            inputs:
-              command: 'init'
-              workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
-              commandOptions: '-upgrade'
-              backendType: 'azurerm'
-              backendServiceArm: '$(SVC_CONNECTION)'
-              backendAzureRmSubscriptionId: '$(ARM_SUBCRIPTION_ID)'
-              backendAzureRmResourceGroupName: '$(TFSTATE_RG)'
-              backendAzureRmStorageAccountName: '$(TFSTATE_SA)'
-              backendAzureRmContainerName: '$(TFSTATE_CONTAINER)'
-              backendAzureRmKey: '$(TFSTATE_KEY)'
-              allowTelemetryCollection: true
-
-          - task: TerraformCLI@0
-            displayName: Deploy
-            inputs:
-              command: 'apply'
-              workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
-              environmentServiceName: $(SVC_CONNECTION)
-              providerAzureRmSubscriptionId: $(ARM_SUBCRIPTION_ID)
-              commandOptions: -input=false -auto-approve tfplan 
-              allowTelemetryCollection: false

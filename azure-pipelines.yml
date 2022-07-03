@@ -74,6 +74,7 @@ stages:
               terraformVersion: 'latest'
 
           - task: ExtractFiles@1
+            displayName: 'tfplan requirements'
             inputs:
               archiveFilePatterns: '**/*.zip'
               destinationFolder: '$(Build.SourcesDirectory)'
@@ -94,17 +95,6 @@ stages:
               backendAzureRmContainerName: '$(TFSTATE_CONTAINER)'
               backendAzureRmKey: '$(TFSTATE_KEY)'
               allowTelemetryCollection: true
-
-
-          # - task: TerraformCLI@0
-          #   displayName: 'Exective Plan'
-          #   inputs:
-          #     command: 'plan'
-          #     workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
-          #     environmentServiceName: $(SVC_CONNECTION)
-          #     providerAzureRmSubscriptionId: $(ARM_SUBCRIPTION_ID)
-          #     allowTelemetryCollection: true
-          #     commandOptions: -lock=false -input=false
 
           - task: TerraformCLI@0
             displayName: Deploy

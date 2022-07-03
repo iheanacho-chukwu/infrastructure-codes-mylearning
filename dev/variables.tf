@@ -1,6 +1,6 @@
 
 variable "vnet" {
-  description = "vnet to create"
+  description = "Name of the vnet to create"
   type        = string
   default     = "frontendvnetdev"
 }
@@ -18,7 +18,7 @@ variable "region" {
 }
 
 variable "rgname" {
-  description = "resource group name to all the resources grouped"
+  description = "name of resource group"
   type    = string
   default = "appsrgdevs"
 }

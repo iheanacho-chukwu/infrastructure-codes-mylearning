@@ -1,12 +1,5 @@
 name: Infrastructure-Deployment-$(Build.SourceBranchName)-$(Date:yyyyMMdd)
 
-variables:
-  TFSTATE_SA: iacbootslab
-  TFSTATE_CONTAINER: tfstate-demo
-  TFSTATE_KEY: terraform.tfstate
-  TFSTATE_RG: demo
-  SVC_CONNECTION: atiku-srvconnection
-
 trigger:
 - main
 
@@ -46,7 +39,7 @@ stages:
         environmentServiceName: $(SVC_CONNECTION)
         providerAzureRmSubscriptionId: $(ARM_SUBCRIPTION_ID)
         allowTelemetryCollection: true
-        commandOptions: -lock=false -input=false
+        commandOptions: -lock=false -input=false -out=tfplan
 
 - stage: Run_Terraform_Apply
   condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')

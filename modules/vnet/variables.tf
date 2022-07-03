@@ -1,22 +1,25 @@
 
 variable "vnet" {
-    description = "vnet to create"
-    type = string
+  description = "Name of the vnet to create"
+  type        = string
 }
 
 variable "vnet_address_space" {
-    description = "vnet_address_space"
-    type = list
+  description = "vnet_address_space"
+  type        = list(any)
 }
 
 variable "region" {
-    type= string
+  description = "Region/location chosen for this deployment"
+  type    = string
 }
 
 variable "rgname" {
-    type=string
+  description = "name of resource group"
+  type    = string
 }
 
 variable "subnet_address_space" {
-    type = list
+  description = "subnet address space to all the resource tie to this subnet id"
+  type    = list(any)
 }

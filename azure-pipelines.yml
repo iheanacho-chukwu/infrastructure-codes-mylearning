@@ -54,6 +54,11 @@ stages:
         versionSelector: 'latestDefaultBranch'
     - script: |
        dir
+    - task: TerraformCLI@0
+      inputs:
+        command: 'validate'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/iac'
+        allowTelemetryCollection: false
 
 - stage: Run_Terraform_Apply
   condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')

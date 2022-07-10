@@ -56,7 +56,7 @@ stages:
        dir
     - task: TerraformCLI@0
       inputs:
-        command: 'validate'
+        command: 'fmt'
         workingDirectory: '$(System.DefaultWorkingDirectory)/iac'
         allowTelemetryCollection: false
 

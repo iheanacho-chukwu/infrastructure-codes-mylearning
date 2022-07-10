@@ -52,7 +52,10 @@ stages:
         connection: 'Gitlab_Nacho_Private_PAT'
         definition: '34846707'
         versionSelector: 'latestDefaultBranch'
-    - script: ls
+    - script: |
+       echo $TFSTATE_SA
+       ls
+
 - stage: Run_Terraform_Apply
   condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
   dependsOn: Terraform_build

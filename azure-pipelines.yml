@@ -53,8 +53,7 @@ stages:
         definition: '34846707'
         versionSelector: 'latestDefaultBranch'
     - script: |
-       echo $TFSTATE_SA
-       ls
+       dir
 
 - stage: Run_Terraform_Apply
   condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')

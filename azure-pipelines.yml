@@ -10,9 +10,7 @@ variables:
 trigger:
 - duplicate_tf_build
 
-pool:
-  vmImage: 'ubuntu-latest'
-# pool: workload-selfhosted-agentpool
+pool: remote-workstation
 
 stages: 
 - stage: Terraform_build

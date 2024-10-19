@@ -59,6 +59,7 @@ stages:
     - script: |
         echo "Listing files after downloading artifact:"
         ls -l $(Pipeline.Workspace)/tfplan/
+        echo "Listing files"
         ls -l
 
     - task: TerraformCLI@2

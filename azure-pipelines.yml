@@ -32,22 +32,21 @@ stages:
         allowTelemetryCollection: true   
 
     - task: TerraformCLI@2
-      displayName: 'Exective Plan'
+      displayName: 'Execute Plan'
       inputs:
         command: 'plan'
         workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
         environmentServiceName: $(SVC_CONNECTION)
         allowTelemetryCollection: true
         publishPlanResults: 'output.tfplan'
-        commandOptions: -lock=false -input=false -out=output.tfplan
+        commandOptions: '-lock=false -input=false -out=$(System.DefaultWorkingDirectory)/dev/output.tfplan'
 
     # Publish the output.tfplan file as an artifact
-    - task: PublishBuildArtifacts@1
+    - task: PublishPipelineArtifact@1
       displayName: 'Publish Terraform Plan as Artifact'
       inputs:
-        PathtoPublish: '$(System.DefaultWorkingDirectory)/dev/output.tfplan'
-        ArtifactName: 'tfplan'
-        publishLocation: 'Pipeline'
+        targetPath: '$(System.DefaultWorkingDirectory)/dev/output.tfplan'
+        artifact: 'tfplan'
 
 - stage: Terraform_Deploy
   dependsOn: Terraform_build
@@ -63,5 +62,5 @@ stages:
         command: 'apply'
         workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
         environmentServiceName: $(SVC_CONNECTION)
-        commandOptions: '-input=false output.tfplan'
+        commandOptions: '-input=false $(System.DefaultWorkingDirectory)/tfplan/output.tfplan'
         allowTelemetryCollection: true

@@ -23,3 +23,9 @@ variable "subnet_address_space" {
   description = "subnet address space to all the resource tie to this subnet id"
   type    = list(any)
 }
+
+variable "tags" {
+  description = "Tags to be applied to resources"
+  type        = map(string)
+  default     = {}
+}

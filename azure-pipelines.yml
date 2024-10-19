@@ -50,6 +50,7 @@ stages:
     #     commandOptions: -lock=false -input=false -out=output.tfplan
 
     - task: TerraformCLI@2
+      displayName: 'Exective Plan'
       inputs:
         command: 'plan'
         workingDirectory: '$(System.DefaultWorkingDirectory)/dev'

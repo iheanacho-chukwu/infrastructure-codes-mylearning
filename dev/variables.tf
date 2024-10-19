@@ -29,3 +29,11 @@ variable "subnet_address_space" {
   default = ["10.0.1.0/24"]
 }
 
+variable "tags" {
+  description = "A map of tags to be applied to all resources"
+  type        = map(string)
+  default     = {
+    environment = "development"
+    owner       = "default-owner"
+  }
+}

@@ -1,6 +1,7 @@
 resource "azurerm_resource_group" "rg" {
   name     = var.rgname
   location = var.region
+  tags = var.tags
 }
 
 module "virtual_network" {
@@ -10,4 +11,5 @@ module "virtual_network" {
   region=var.region
   rgname=azurerm_resource_group.rg.name
   subnet_address_space=var.subnet_address_space
+  tags = var.tags
 }

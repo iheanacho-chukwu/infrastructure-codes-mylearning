@@ -40,7 +40,7 @@ stages:
     #     allowTelemetryCollection: true
 
 
-    - task: TerraformCLI@0
+    - task: TerraformCLI@2
       displayName: 'Initialization'
       inputs:
         command: 'init'
@@ -54,25 +54,34 @@ stages:
         backendAzureRmKey: '$(TFSTATE_KEY)'
         allowTelemetryCollection: true
 
-    - task: TerraformCLI@0
-      displayName: 'Exective Plan'
+    # - task: TerraformCLI@0
+    #   displayName: 'Exective Plan'
+    #   inputs:
+    #     command: 'plan'
+    #     workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
+    #     environmentServiceName: $(SVC_CONNECTION)
+    #     providerAzureRmSubscriptionId: $(ARM_SUBCRIPTION_ID)
+    #     allowTelemetryCollection: true
+    #     commandOptions: -lock=false -input=false -out=output.tfplan
+
+    - task: TerraformCLI@2
       inputs:
         command: 'plan'
         workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
-        environmentServiceName: $(SVC_CONNECTION)
-        providerAzureRmSubscriptionId: $(ARM_SUBCRIPTION_ID)
+        environmentServiceName: 'eng-lab-automation'
         allowTelemetryCollection: true
-        commandOptions: -lock=false -input=false -out=output.tfplan
+        publishPlanResults: 'output.tfplan'
+        commandOptions: -lock=false -input=false
 
-    - task: TerraformCLI@0
+    - task: TerraformCLI@2
       displayName: Deploy
       inputs:
         command: 'apply'
         workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
         environmentServiceName: $(SVC_CONNECTION)
-        providerAzureRmSubscriptionId: $(ARM_SUBCRIPTION_ID)
+        # providerAzureRmSubscriptionId: $(ARM_SUBCRIPTION_ID)
         commandOptions: '-input=false'
-        allowTelemetryCollection: false
+        allowTelemetryCollection: true
 
     # - task: PublishBuildArtifacts@1
     #   displayName: 'Publish tfplan file as artifact for use in Deploy stage'

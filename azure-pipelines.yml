@@ -45,7 +45,7 @@ stages:
     - task: PublishPipelineArtifact@1
       displayName: 'Publish Terraform Plan as Artifact'
       inputs:
-        targetPath: 'output.tfplan'
+        targetPath: '$(System.DefaultWorkingDirectory)/dev/output.tfplan'
         artifact: 'tfplan'
 
 - stage: Terraform_Deploy
@@ -56,11 +56,16 @@ stages:
     - download: current
       artifact: tfplan
 
+    - script: |
+        echo "Listing files after downloading artifact:"
+        ls -l $(Pipeline.Workspace)/tfplan/
+        ls -l
+
     - task: TerraformCLI@2
       displayName: 'Deploy'
       inputs:
         command: 'apply'
         workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
         environmentServiceName: $(SVC_CONNECTION)
-        commandOptions: '-input=false -auto-approve output.tfplan'
+        commandOptions: '-input=false -auto-approve $(Pipeline.Workspace)/tfplan/output.tfplan'
         allowTelemetryCollection: true

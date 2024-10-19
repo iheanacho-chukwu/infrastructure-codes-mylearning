@@ -60,17 +60,19 @@ stages:
     - download: current
       artifact: tfplan
 
-    - script: |
-        echo "Listing files after downloading artifact:"
-        ls -l $(Pipeline.Workspace)/tfplan/
-        echo "Listing files"
-        ls -l
-
     - task: TerraformCLI@2
-      displayName: 'Deploy'
       inputs:
         command: 'apply'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
-        environmentServiceName: $(SVC_CONNECTION)
+        environmentServiceName: 'eng-lab-automation'
+        runAzLogin: true
         commandOptions: '-input=false -auto-approve $(Pipeline.Workspace)/tfplan/output.tfplan'
         allowTelemetryCollection: true
+
+    # - task: TerraformCLI@2
+    #   displayName: 'Deploy'
+    #   inputs:
+    #     command: 'apply'
+    #     workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
+    #     environmentServiceName: $(SVC_CONNECTION)
+    #     commandOptions: '-input=false -auto-approve $(Pipeline.Workspace)/tfplan/output.tfplan'
+    #     allowTelemetryCollection: true

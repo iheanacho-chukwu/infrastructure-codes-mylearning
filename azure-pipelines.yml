@@ -10,7 +10,7 @@ variables:
 trigger:
 - duplicate_tf_build
 
-pool: remote-workstation
+pool: linux-agent-pool
 
 stages: 
 - stage: Terraform_build

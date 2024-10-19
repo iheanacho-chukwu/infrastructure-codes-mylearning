@@ -5,7 +5,7 @@ variables:
   TFSTATE_CONTAINER: tfstate-demo
   TFSTATE_KEY: terraform.tfstate
   TFSTATE_RG: demo
-  SVC_CONNECTION: eng-engineering
+  SVC_CONNECTION: eng-lab-automation
 
 trigger:
 - duplicate_tf_build
@@ -18,10 +18,10 @@ stages:
   - job: Build
     steps:
 
-    - task: TerraformInstaller@0
-      displayName: 'package requirements'
-      inputs:
-        terraformVersion: 'latest'
+    # - task: TerraformInstaller@0
+    #   displayName: 'package requirements'
+    #   inputs:
+    #     terraformVersion: 'latest'
 
     - task: TerraformCLI@0
       displayName: 'Initialization'

@@ -6,6 +6,7 @@ variables:
   TFSTATE_KEY: terraform.tfstate
   TFSTATE_RG: demo
   SVC_CONNECTION: eng-lab-automation
+  ARM_SUBCRIPTION_ID: 800eeb5c-ab87-468f-800b-d9ca632b4f73
 
 trigger:
 - duplicate_tf_build

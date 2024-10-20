@@ -35,5 +35,6 @@ variable "tags" {
   default     = {
     environment = "labs"
     owner       = "nacho"
+    application = "azureDevops"
   }
 }

@@ -17,9 +17,9 @@ stages:
   jobs:
   - job: Build
     steps:
-    - task: TerraformInstaller@2
-      inputs:
-        terraformVersion: '1.9.8'
+    # - task: TerraformInstaller@2
+    #   inputs:
+    #     terraformVersion: '1.9.8'
 
     - task: TerraformCLI@2
       displayName: 'Initialization'

@@ -26,14 +26,14 @@ stages:
       inputs:
         command: 'init'
         workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
-        commandOptions: '-upgrade'
         backendType: 'azurerm'
-        backendServiceArm: 'eng-lab-automation'
+        backendServiceArm: $(SVC_CONNECTION)
         backendAzureRmResourceGroupName: '$(TFSTATE_RG)'
         backendAzureRmStorageAccountName: '$(TFSTATE_SA)'
         backendAzureRmContainerName: '$(TFSTATE_CONTAINER)'
         backendAzureRmKey: '$(TFSTATE_KEY)'
-        allowTelemetryCollection: true   
+        allowTelemetryCollection: true
+        commandOptions: '-upgrade'
 
     - task: TerraformCLI@2
       displayName: 'Execute Plan'
@@ -56,6 +56,7 @@ stages:
   dependsOn: Terraform_build
   jobs:
   - job: Deploy
+    environment: dev
     steps:
     - download: current
       artifact: tfplan
@@ -67,18 +68,16 @@ stages:
       displayName: 'Tplan copy'
 
     - task: TerraformCLI@2
-      displayName: 'Re-Initialization'
+      displayName: 'Re-initialize'
       inputs:
         command: 'init'
         workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
-        commandOptions: '-upgrade'
-        backendType: 'azurerm'
-        backendServiceArm: 'eng-lab-automation'
+        backendServiceArm: '$(SVC_CONNECTION)'
         backendAzureRmResourceGroupName: '$(TFSTATE_RG)'
         backendAzureRmStorageAccountName: '$(TFSTATE_SA)'
         backendAzureRmContainerName: '$(TFSTATE_CONTAINER)'
         backendAzureRmKey: '$(TFSTATE_KEY)'
-        allowTelemetryCollection: true   
+        commandOptions: '-upgrade'
 
     - task: TerraformCLI@2
       displayName: 'Deploy'

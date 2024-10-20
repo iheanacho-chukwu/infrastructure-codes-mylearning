@@ -56,7 +56,9 @@ stages:
   dependsOn: Terraform_build
   jobs:
   - job: Deploy
-    environment: dev
+    displayName: 'Deploy to Development Environment'
+    environment: 
+      name: 'dev'
     steps:
     - download: current
       artifact: tfplan

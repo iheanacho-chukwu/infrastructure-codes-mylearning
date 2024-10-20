@@ -17,10 +17,10 @@ stages:
   jobs:
   - job: Build
     steps:
-    # - task: TerraformInstaller@2
-    #   displayName: install terraform
-    #   inputs:
-    #     terraformVersion: '1.9.8'
+    - task: TerraformInstaller@2
+      displayName: install terraform
+      inputs:
+        terraformVersion: '1.9.8'
 
     - task: TerraformCLI@2
       displayName: 'Initialization'
@@ -46,7 +46,6 @@ stages:
         publishPlanResults: 'output'
         commandOptions: '-lock=false -input=false -out=output.tfplan'
 
-    # Publish the output.tfplan file as an artifact
     - task: PublishPipelineArtifact@1
       displayName: 'Publish Terraform Plan as Artifact'
       inputs:

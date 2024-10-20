@@ -1,6 +1,6 @@
 
 variable "vnet" {
-  description = "vnet to create"
+  description = "Name of the vnet to create"
   type        = string
   default     = "frontendvnetdev"
 }
@@ -18,7 +18,7 @@ variable "region" {
 }
 
 variable "rgname" {
-  description = "resource group name to all the resources grouped"
+  description = "name of resource group"
   type    = string
   default = "appsrgdevs"
 }
@@ -29,3 +29,12 @@ variable "subnet_address_space" {
   default = ["10.0.1.0/24"]
 }
 
+variable "tags" {
+  description = "A map of tags to be applied to all resources"
+  type        = map(string)
+  default     = {
+    environment = "labs"
+    owner       = "nacho"
+    application = "azureDevops"
+  }
+}

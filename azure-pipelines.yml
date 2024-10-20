@@ -42,7 +42,7 @@ stages:
         workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
         environmentServiceName: $(SVC_CONNECTION)
         allowTelemetryCollection: true
-        # publishPlanResults: 'output.tfplan'
+        publishPlanResults: 'output'
         commandOptions: '-lock=false -input=false -out=output.tfplan'
 
     # Publish the output.tfplan file as an artifact
@@ -67,16 +67,18 @@ stages:
       displayName: 'Tplan copy'
 
     - task: TerraformCLI@2
-      displayName: 'Re-initialize'
+      displayName: 'Re-Initialization'
       inputs:
         command: 'init'
         workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
-        backendServiceArm: '$(SVC_CONNECTION)'
+        commandOptions: '-upgrade'
+        backendType: 'azurerm'
+        backendServiceArm: 'eng-lab-automation'
         backendAzureRmResourceGroupName: '$(TFSTATE_RG)'
         backendAzureRmStorageAccountName: '$(TFSTATE_SA)'
         backendAzureRmContainerName: '$(TFSTATE_CONTAINER)'
         backendAzureRmKey: '$(TFSTATE_KEY)'
-        commandOptions: '-upgrade'
+        allowTelemetryCollection: true   
 
     - task: TerraformCLI@2
       displayName: 'Deploy'

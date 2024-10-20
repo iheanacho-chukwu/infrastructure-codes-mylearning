@@ -17,9 +17,9 @@ stages:
   jobs:
   - job: Build
     steps:
-    # - task: TerraformInstaller@2
-    #   inputs:
-    #     terraformVersion: '1.9.8'
+    - task: TerraformInstaller@2
+      inputs:
+        terraformVersion: '1.9.8'
 
     - task: TerraformCLI@2
       displayName: 'Initialization'
@@ -69,7 +69,7 @@ stages:
               echo "Listing files after downloading artifact:"
               ls -l $(Pipeline.Workspace)/tfplan/
               cp $(Pipeline.Workspace)/tfplan/output.tfplan $(System.DefaultWorkingDirectory)/dev/
-            displayName: 'Tplan copy'
+            displayName: 'Validate and Move Tplan for Apply'
 
           - task: TerraformCLI@2
             displayName: 'Re-initialize'

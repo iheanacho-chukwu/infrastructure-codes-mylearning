@@ -67,6 +67,18 @@ stages:
       displayName: 'Tplan copy'
 
     - task: TerraformCLI@2
+      displayName: 'Re-initialize'
+      inputs:
+        command: 'init'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/dev'
+        backendServiceArm: '$(SVC_CONNECTION)'
+        backendAzureRmResourceGroupName: '$(TFSTATE_RG)'
+        backendAzureRmStorageAccountName: '$(TFSTATE_SA)'
+        backendAzureRmContainerName: '$(TFSTATE_CONTAINER)'
+        backendAzureRmKey: '$(TFSTATE_KEY)'
+        commandOptions: '-upgrade'
+
+    - task: TerraformCLI@2
       displayName: 'Deploy'
       inputs:
         command: 'apply'
